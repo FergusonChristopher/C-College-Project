@@ -1,0 +1,42 @@
+public List<DTO_Part> GetPartsByCategory(DTO_Category cat)
+        {
+            using (DB_111206_scrapEntities db = new DB_111206_scrapEntities())
+            {
+                var matches = db.Parts.Where(x => x.partCat == cat.categoryId).ToList();
+                List<DTO_Part> parts = new List<DTO_Part>();
+                foreach (var m in matches)
+                {
+                    var tempP = new DTO_Part
+                    {
+                        manID = m.manID,
+                        manufacture = m.Manufacturer.manName,
+                        modelID = m.modelId,
+                        partDesc = m.partDesc,
+                        partNum = m.partNum,
+                        partPic = m.partPic,
+                        partsID = m.partsID
+                    };
+                    parts.Add(tempP);
+                }
+                return parts;
+            }
+        }
+       
+        public List<DTO_ModelInfo> GetModelByPart(DTO_Part p)
+        {
+            using (DB_111206_scrapEntities db = new DB_111206_scrapEntities())
+            {
+                var modelsList = db.Models.Where(x => x.modelID == p.modelID).ToList();
+                List<DTO_ModelInfo> models = new List<DTO_ModelInfo>();
+                foreach (var i in modelsList)
+                {
+                    var tempM = new DTO_ModelInfo
+                    {
+                        modelID = i.modelID,
+                        modelName = i.modelName
+                    };
+                    models.Add(tempM);
+                }
+                return models;
+            }
+        }
